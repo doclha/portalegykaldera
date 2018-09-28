@@ -1,0 +1,43 @@
+﻿@model Portal_v1._0._1.Identity.PortalUser
+@{
+    ViewBag.Title = "Profil";
+}
+<!-- Breadcrumbs-->
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Index">Ana Sayfa</a>
+    </li>
+    <li class="breadcrumb-item active">Profil</li>
+</ol>
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Warning"]
+    </div>
+}
+<!-- Example DataTables Card-->
+<div class="card border-primary mb-3 ">
+    <div class="card-header ">
+        <i class="fa fa-table "></i> <strong class="custom-strong">Profil Bilgileri</strong>
+    </div>
+    <div class="card-body  ">
+        <ul class="list-group">
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Kullanıcı Adı : </strong></span> @Model.UserName</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Ad : </strong> </span> @Model.Name</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Soyad : </strong></span>@Model.LastName</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Telefon : </strong></span>@Model.PhoneNumber</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Unvan : </strong></span>@Model.Title</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">E-Posta : </strong></span>@Model.Email</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Lokasyon : </strong></span>@Model.Address</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">İşe Giriş Tarihi : </strong></span>@String.Format("{0:dd/MM/yyy}", Model.IseGiris)</li>
+        </ul>
+        <div style="margin-top:1%">
+            @Html.ActionLink("Bilgileri Düzenle", "UserUpdate", new { id = Model.Id }, new { @class = "btn btn-custom-blue float-right" })
+        </div>
+    </div>
+
+
+
+    <div class="card-footer small text-muted float-right">@DateTime.Now.Year</div>
+</div>

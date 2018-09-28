@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Portal_v1._0._1.Models.CvGelen>
+@{
+    ViewBag.Title = "CV Görüntüle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">CV Görüntüle </li>
+</ol>
+<!-- Example DataTables Card-->
+<div class="card border-primary  mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">CV Tablosu</strong>
+    </div>
+    <div class="card-body ">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="custom-strong">Ad Soyad</th>
+                        <th class="custom-strong">Dosya Adı</th>
+                        <th class="custom-strong">İndir</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="custom-strong">Ad Soyad</th>
+                        <th class="custom-strong">Dosya Adı</th>
+                        <th class="custom-strong">İndir</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center bg-danger">CV yok</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>@item.Name @item.LastName</td>
+                            <td>@item.FileName</td>
+                            <td><a href="~/uploads/UploadCV/@item.FileName">İndir</a></td>
+                            <td><form action="/Admin/DeleteCV/@item.Id" method="post"> @Html.AntiForgeryToken() <button class="btn btn-danger">Sil</button></form> </td>
+                        </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">@DateTime.Now.Year</div>
+</div>
+
+

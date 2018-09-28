@@ -1,0 +1,159 @@
+﻿@model Portal_v1._0._1.Models.IzinModel
+@{
+    /**/
+
+    ViewBag.Title = "IzinIste";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Breadcrumbs-->
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Home/Index">Ana Sayfa</a>
+    </li>
+    <li class="breadcrumb-item active">İzin İste</li>
+</ol>
+<div class="content">
+
+    @if (ViewData["Warning"] != null)
+    {
+        <div class="alert alert-warning">
+            @ViewData["Warning"]
+        </div>
+    }
+    @if (ViewData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @ViewData["Success"]
+        </div>
+    }
+
+    <div class="col">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="fa fa-table"></i> <strong class="custom-strong">Yeni İzin Talebi</strong>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <strong class="custom-strong">İzin Nedeni</strong>
+                            @Html.DropDownListFor(i => i.IzinTuru, ViewBag.izinListesi as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                            <div class="mt-1">
+                                <strong class="custom-strong">Açıklama</strong>
+                                 @Html.TextAreaFor(i => i.IzinAciklama, new { @class = "form-control", @style = "height: 108px;" })
+                                @Html.ValidationMessageFor(i => i.IzinAciklama)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <strong class="custom-strong">Başlangıç Tarihi</strong>
+                            @Html.TextBoxFor(i => i.BaslangicTarihi,
+                  new { @type = "date", @class = "form-control" })
+                            @Html.ValidationMessageFor(i => i.BaslangicTarihi)
+
+                            <div class="mt-1">
+                                <strong class="custom-strong">Bitiş Tarihi</strong>
+                                @Html.TextBoxFor(i => i.BitisTarihi, new { @type = "date", @class = "form-control" })
+                                @Html.ValidationMessageFor(i => i.BitisTarihi)
+                            </div>
+                            <div class="mt-1">
+                                <strong class="custom-strong">İzin Sayısı</strong>
+                                <input type="number" id="IzinSayisi" class="form-control" onkeypress="return isNumber(event)" />
+                            </div>
+
+
+                            <div class="text-danger disabled" id="fark"></div>
+                            <button style="margin-top:20px;" id="submit" type="submit" class="float-right btn btn-custom-blue">İzin İste</button>
+                        </div>
+                    </div>
+                 
+                }
+            </div>
+            <div class="card-footer small text-muted float-right">@DateTime.Now.Year</div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function isNumber(evt) {
+            var end;
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+
+            var start = new Date($('#BaslangicTarihi').val());
+
+            end = evt.target.value;
+            if (end == undefined)
+                end = evt.key;
+            else {
+                end = end + evt.key;
+            }
+            console.log(start, end);
+            if ((end == null || end == undefined || end == "") && (start == null || start == undefined || start == "")) {
+                return true;
+            }
+            else {
+                getDate(start, end);
+                return true;
+            }
+        }
+
+        function getDate(date1, end) {
+            var entity = { selectedDate: date1, num: end };
+            var date;
+            $.ajax({
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(entity),
+                url: "/Home/checkDatetime",
+                success: function (data) {
+                    $("#BitisTarihi").val(data);
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert("hata var");
+                }
+            });
+
+            return date;
+        }
+        $("#BitisTarihi").on("change", () => {
+            var start = new Date($('#BaslangicTarihi').val());
+            var end = new Date($('#BitisTarihi').val());
+            if (start > end) {
+                $("#fark").append("Başlangıç Tarihi Bitiş Tarihinden sonraki bir tarih olamaz !");
+                $("#submit").attr("disabled", true);
+                return;
+            }
+            console.log(start, end);
+            var diff = new Date(end - start);
+            var days = Math.floor(diff / 1000 / 60 / 60 / 24);
+            $("#fark").empty();
+            $("#submit").removeAttr("disabled");
+
+            var start = new Date($('#BaslangicTarihi').val());
+            var end = new Date($('#BitisTarihi').val());
+
+        });
+
+
+
+
+    </script>
+
+
+}
+
+
+
+
+

@@ -1,0 +1,41 @@
+﻿@model Portal_v1._0._1.Models.RaporGelen
+@{
+    ViewBag.Title = "RaporDetay";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Admin</a>
+    </li>
+    <li class="breadcrumb-item "><a href="/Admin/Raporlar">Raporlar</a></li>
+    <li class="breadcrumb-item active">Rapor Detay</li>
+</ol>
+<!-- Example DataTables Card-->
+<div class="card border-primary mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">Rapor Bilgileri</strong>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item "><span class="custom-strong text-center ">Adı :</span> @Model.Name</li>
+            <li class="list-group-item "><span class="custom-strong  text-center">Soyadı :</span> @Model.LastName</li>
+            <li class="list-group-item "><span class="custom-strong text-center">Rapor Açıklaması :</span> @Model.RaporAciklama</li>
+            <li class="list-group-item "><span class="custom-strong text-center">Rapor Gün Sayısı:</span> @String.Format("{0: dd}", Model.RaporGun)</li>
+            <li class="list-group-item "> <span class="custom-strong text-center">Başlangıç Tarihi : </span>@String.Format("{0: MM/dd/yyyy}", Model.BaslangicTarihi)</li>
+            <li class="list-group-item "> <span class="custom-strong text-center">Bitiş Tarihi : </span>@String.Format("{0:dd/MM/yyyy}", Model.BitisTarihi)</li>
+            <li class="list-group-item "> <span class="custom-strong text-center">Onay : </span>@(Model.Onaylandi == true ? "Onaylandı" : "Onaylanmadı")</li>
+        </ul>
+    </div>
+    <div class="card-footer">
+        <div class="btn-group float-md-right" role="group">
+            @Html.ActionLink("Onayla", "RaporOnay", new { id = Model.Id }, new { @class = "btn btn-outline-custom-blue float-right" })
+            @Html.ActionLink("Vazgeç", "Raporlar", null, new { @class = "btn btn-outline-warning float-right" })
+            @Html.ActionLink("Sil", "RaporSil", new { id = Model.Id }, new { @class = "btn btn-outline-danger float-right" })
+        </div>
+
+    </div>
+
+</div>
+
+

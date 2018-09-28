@@ -1,0 +1,40 @@
+﻿@model Portal_v1._0._1.Models.IzinGelen
+@{
+    ViewBag.Title = "IzinDetay";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Admin</a>
+    </li>
+    <li class="breadcrumb-item"><a href="/Admin/Izinler">İzinler</a></li>
+    <li class="breadcrumb-item active">İzin Detay</li>
+</ol>
+<!-- Example DataTables Card-->
+<div class="card border-primary mb-3" >
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">İzin Bilgileri</strong>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item "><span class="custom-strong text-center">Adı :</span> @Model.Name</li>
+            <li class="list-group-item "><span class="custom-strong text-center">Soyadı :</span> @Model.LastName</li>
+            <li class="list-group-item "><span class="custom-strong text-center">İzin Açıklaması :</span> @Model.IzinAciklama</li>
+            <li class="list-group-item "><span class="custom-strong text-center">İzin Gün Sayısı :</span> @String.Format("{0: dd}", Model.IzinGun)</li>
+            <li class="list-group-item "> <span class="custom-strong text-center">İzin Türü : </span>@Model.IzinTuru</li>
+            <li class="list-group-item "> <span class="custom-strong text-center">Başlangıç Tarihi : </span>@String.Format("{0: MM/dd/yyyy}", Model.BaslangicTarihi)</li>
+            <li class="list-group-item "> <span class="custom-strong text-center">Bitiş Tarihi : </span>@String.Format("{0:dd/MM/yyyy}", Model.BitisTarihi)</li>
+            <li class="list-group-item "> <span class="custom-strong text-center">Onay : </span>@(Model.Onaylandi == true ? "Onaylandı" : "Onaylanmadı")</li>
+        </ul>
+    </div>
+    <div class="card-footer">
+        <div class="btn-group float-md-right" role="group">
+            <form method="post" action="/Admin/IzinOnay/@Model.Id">@Html.AntiForgeryToken()<button class="btn btn-outline-custom-blue float-right">Onayla</button></form> 
+            @Html.ActionLink("Vazgeç", "Izinler", null, new { @class = "btn btn-outline-warning float-right" })
+            <form method="post" action="/Admin/IzinSil/@Model.Id">@Html.AntiForgeryToken()<button class="btn btn-outline-danger float-right">Sil</button></form>
+        </div>
+        
+    </div>
+
+</div>
+

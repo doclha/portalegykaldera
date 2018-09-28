@@ -1,0 +1,85 @@
+﻿@model Portal_v1._0._1.Models.RoleEditModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/RoleAdmin/Create">Admin</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/RoleAdmin/Index">Roller</a>
+    </li>
+    <li class="breadcrumb-item active">Rol Düzenle</li>
+</ol>
+
+@using (Html.BeginForm())
+{
+    <input type="hidden" name="roleName" value="@Model.Role.Name" />
+    <input type="hidden" name="roleName" value="@Model.Role.Id" />
+
+    <div class="card">
+        <div class="card-header bg-custom-blue text-white">
+            @Model.Role.Name Ekle
+        </div>
+        <table class="table table-striped">
+            @if (Model.NonMembers.Count() == 0)
+            {
+                <tr><td colspan="2">Bu role eklenebilecek kullanıcı yok</td></tr>
+            }
+            else
+            {
+                <tr>
+                    <td><strong class="custom-strong">Id</strong></td>
+                    <td><strong class="custom-strong">Kullanıcı Adı</strong></td>
+                    <td><strong class="custom-strong">Ad Soyad</strong></td>
+                    <td><strong class="custom-strong">Rol</strong></td>
+                </tr>
+                foreach (var user in Model.NonMembers)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Name @user.LastName</td>
+                        <td><input type="checkbox" name="IdsToAdd" value="@user.Id" /></td>
+                    </tr>
+                }
+
+            }
+        </table>
+    </div>
+    <div class="card">
+        <div class="card-header bg-custom-blue text-white">
+            @Model.Role.Name Sil
+        </div>
+        <table class="table table-striped">
+            @if (Model.Members.Count() == 0)
+            {
+                <tr><td colspan="2">Bu role eklenmiş kullanıcı yok</td></tr>
+            }
+            else
+            {
+                <tr>
+                    <td><strong class="custom-strong">Id</strong></td>
+                    <td><strong class="custom-strong">Kullanıcı Adı</strong></td>
+                    <td><strong class="custom-strong">Ad Soyad</strong></td>
+                    <td><strong class="custom-strong">Seç</strong></td>
+                </tr>
+                foreach (var user in Model.Members)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Name @user.LastName</td>
+                        <td><input type="checkbox" name="IdsToDelete" value="@user.Id" /></td>
+                    </tr>
+                }
+
+            }
+        </table>
+    </div>
+
+    <button type="submit" class="btn btn-custom-blue float-right" style="margin:10px 0 10px 0;">Kaydet</button>
+
+}

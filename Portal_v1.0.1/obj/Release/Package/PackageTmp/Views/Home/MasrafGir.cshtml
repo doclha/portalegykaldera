@@ -1,0 +1,246 @@
+﻿@model Portal_v1._0._1.Models.MasrafGelen
+@{
+    ViewBag.Title = "MasrafGir";
+    Layout = "~/Views/Shared/_MasrafLayout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Home/Index">Ana Sayfa</a>
+    </li>
+    <li class="breadcrumb-item active">Masraf Gir</li>
+</ol>
+
+<div class="card border-primary mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">Yeni Masraf</strong>
+    </div>
+    <div class="card-body">
+
+
+        <div class="form-row">
+            <div class="col-md-2">
+                <label for="description"><strong class="custom-strong">Tedarikçi</strong></label>
+                <input type="text" name="tedarikci" id="tedarikci" class="form-control" placeholder="Tedarikçi Girin" required />
+                <div class="invalid-feedback">Tedarikçi boş bırakılamaz !!!</div>
+            </div>
+            <div class="col-md-2">
+                <label for="price"><strong class="custom-strong">Tutar</strong></label>
+                <div class="input-group">
+                    <input type="text" name="tutar" id="price" class="form-control" placeholder="Tutar Girin" required />
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">₺</span>
+                    </div>
+                    <div class="invalid-feedback">Lütfen tutar giriniz !!!</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="date"><strong class="custom-strong">Tarih</strong></label>
+                <input type="date" name="tarih" id="date" class="form-control" required />
+                <div class="invalid-feedback">Lütfen tarih giriniz !!!</div>
+            </div>
+            <div class="col-md-4">
+                <label for="description"><strong class="custom-strong">Açıklama</strong></label>
+                <input type="text" name="aciklama" id="description" class="form-control" placeholder="Açıklama Girin" required />
+                <div class="invalid-feedback">Açıklama boş bırakılamaz !!!</div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" id="sepetEkle" class="btn btn-custom-blue" style="margin-top:2em;">Sepete Ekle</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer small text-muted float-right"> </div>
+
+</div>
+<div class="card border-primary mb-3">
+
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">Sepet</strong>
+    </div>
+    <div class="card-body">
+
+     
+        <div class="form-row">
+            <div class="table-responsive">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="custom-strong">Tedarikçi</th>
+                            <th scope="col" class="custom-strong">Açıklama</th>
+                            <th scope="col" class="custom-strong">Tarih</th>
+                            <th scope="col" class="custom-strong">Tutar</th>
+                            <th scope="col" class="custom-strong">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sepetici"></tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="col" class="custom-strong"></th>
+                            <th scope="col" class="custom-strong"></th>
+                            <th scope="col" class="custom-strong"></th>
+                            <th scope="col" class="custom-strong">Toplam Tutar: <span id="toplam"></span></th>
+                            <th scope="col"><button class="btn btn-outline-custom-blue" style="padding:0 10px 0 10px;" id="kaydet">Kaydet</button></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                    <small>Copyright © Kalderasoft Portal 2018</small>
+                </div>
+            </div>
+        </footer>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">@User.Identity.Name, çıkış yapmak istiyor musunuz? </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Oturumunuzu sonlandırmak için çıkış yap butonuna tıklayınız.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Geri</button>
+                        <a class="btn btn-custom-blue" href="/Account/Logout">Çıkış Yap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JavaScript-->
+        <script src="~/vendor/jquery/jquery.min.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                var sepet = [];
+                var toplam = 0;
+                var sayac = 0;
+                $("#sepetEkle").on('click', function () {
+                    var aciklama = $("#description").val();
+                    var tutar = $("#price").val();
+                    var tarih = $("#date").val();
+                    var tedarikci = $("#tedarikci").val();
+                    if (tedarikci == null || tedarikci == "") {
+                        $("#tedarikci").removeClass("is-vaild").addClass("is-invalid");
+                        return;
+                    }
+                    else {
+                        $("#tedarikci").removeClass("is-invalid").addClass("is-valid");
+                    }
+                    if (aciklama == null || aciklama == "") {
+                        $("#description").removeClass("is-vaild").addClass("is-invalid");
+                        return;
+                    }
+                    else {
+                        $("#description").removeClass("is-invalid").addClass("is-valid");
+                    }
+                    if (tutar == null || tutar == "") {
+                        $("#price").removeClass("is-vaild").addClass("is-invalid");
+                        return;
+                    }
+                    else {
+                        $("#price").removeClass("is-invalid").addClass("is-valid");
+                    }
+                    if (tarih == null || tarih == "") {
+                        $("#date").removeClass("is-vaild").addClass("is-invalid");
+                        return;
+                    }
+                    else {
+                        $("#date").removeClass("is-invalid").addClass("is-valid");
+                    }
+
+                    var MasrafUrun = {
+                        Sayac: sayac,
+                        Aciklama: aciklama,
+                        Tutar: tutar,
+                        Tarih: tarih,
+                        Tedarikci: tedarikci
+                    };
+                    toplam += parseFloat(tutar);
+                    sepet.push(MasrafUrun);
+                    sayac++;
+                    $("#sepetici").empty();
+                    sepet.forEach(function (item) {
+                        var sepetitem = "<tr><td>" + item.Tedarikci + "</td><td>" + item.Aciklama + "</td><td>" + item.Tarih + "</td><td>" + item.Tutar + "</td><td><button  style='padding:0 10px 0 10px;' value=" + item.Sayac + " class='btn btn-danger'>Sil</button></td>";
+                        $("#sepetici").append(sepetitem);
+                    })
+
+
+                    $("#toplam").empty().append(toplam + "₺");
+                    $("#description").val("");
+                    $("#tedarikci").val("");
+                    $("#date").val("");
+                    $("#price").val("");
+                });
+
+                $("#kaydet").on('click', function () {
+                    if (sepet.length == 0) {
+                        $("#sepetici").empty();
+                        $("#sepetici").append("<tr><td colspan='6' class='alert alert-danger text-center'>Sepette eşya yok</td></tr>")
+                        return;
+                    }
+                    $("#kaydet").addClass("disabled");
+                    $.post("/Home/MasrafGir",
+                        {
+                            sepet: sepet,
+                            toplam: toplam.toString(),
+                        },
+                        function (data, status) {
+                            if (status == "success") {
+                                alert("Masraf kaydedildi");
+                                window.location.replace("/Home/MasrafGir");
+                            }
+                        });
+                });
+
+                //$("#btnSil").on('click', (s) => {
+                //    sepet.slice(s);
+                //    $("#sepetici").empty();
+                //    sepet.forEach(function (item) {
+                //        var sepetitem = "<tr><th scope='row'>#</th><td>" + item.Aciklama + "</td><td>" + item.Tarih + "</td><td>" + item.Tutar + "</td><td><button id='btnSil' class='btn btn-danger'>Sil</button></td>";
+                //        $("#sepetici").append(sepetitem);
+                //    })
+                //});
+                $('#sepetici').on('click', 'tr >td>button', function () {
+                    var sira = parseInt($(this).val());
+                    for (var i = 0; i < sepet.length; i++) {
+                        if (sepet[i].Sayac == sira) {
+                            toplam -= parseFloat(sepet[i].Tutar);
+                            sepet.splice(i, 1);
+                        }
+                    }
+                    $("#sepetici").empty();
+                    $("#toplam").empty().append(toplam + "₺");
+                    sepet.forEach(function (item) {
+                        var sepetitem = "<tr><td>" + item.Tedarikci + "</td><td>" + item.Aciklama + "</td><td>" + item.Tarih + "</td><td>" + item.Tutar + "</td><td><button  style='padding:0 10px 0 10px;' value=" + item.Sayac + " class='btn btn-danger'>Sil</button></td>";
+                        $("#sepetici").append(sepetitem);
+                    })
+                });
+
+            });
+        
+        </script>
+        <!-- Core plugin JavaScript-->
+        <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Page level plugin JavaScript-->
+        <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="~/js/sb-admin.min.js"></script>
+        <!-- Custom scripts for this page-->
+
+
+

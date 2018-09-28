@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>404 Not Found</title>
+    <link href="~/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/hata.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
+</head>
+<body class="error-body">
+    <div class="container rDiv">
+        <div class="custom-container">
+            <div class="row ">
+                <div class="col-md-6 block">
+                    <div class="circle">
+                        <h1 class="custom-h1">404</h1>
+                        <h5 class="custom-h5">Page Not Found</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 block">
+                    <div class="texts">
+                        <h1 class="custom-right-h1">Oops!</h1>
+                        <h6 class="custom-right-h6">@Response.StatusCode</h6>
+                        <p class="custom-right-p">@TempData["Hata"]</p>
+                        <a href="/Home/Index" class="btn btn-success">Go to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

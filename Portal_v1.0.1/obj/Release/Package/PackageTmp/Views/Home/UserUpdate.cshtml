@@ -1,0 +1,68 @@
+﻿@model Portal_v1._0._1.Identity.PortalUser
+@{
+    ViewBag.Title = "UserUpdate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Home/Index">Ana Sayfa</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Home/Index">Profil</a>
+    </li>
+    <li class="breadcrumb-item active">Bilgileri Düzenle</li>
+</ol>
+<!-- Example DataTables Card-->
+<div class="card border-primary mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">Profil Bilgileri</strong>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+    {
+
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.HiddenFor(i => i.Id, new { @class = "form-control" })
+            <label for="userName" class="custom-strong">Kullanıcı Adı</label>
+            @Html.TextBoxFor(i => i.UserName, new { @class = "form-control", id = "userName" })
+            @Html.ValidationMessageFor(i => i.UserName)
+        </div>
+        <div class="form-group">
+            <label for="Name" class="custom-strong">Ad</label>
+            @Html.TextBoxFor(i => i.Name, new { @class = "form-control", id = "Name" })
+            @Html.ValidationMessageFor(i => i.Name)
+        </div>
+        <div class="form-group">
+            <label for="lastName" class="custom-strong">Soyad</label>
+            @Html.TextBoxFor(i => i.LastName, new { @class = "form-control", id = "lastName" })
+            @Html.ValidationMessageFor(i => i.LastName)
+        </div>
+        <div class="form-group">
+            <label for="title" class="custom-strong">Unvan</label>
+            @Html.TextBoxFor(i => i.Title, new { @class = "form-control", id = "title" })
+            @Html.ValidationMessageFor(i => i.Title)
+        </div>
+        <div class="form-group">
+            <label for="phone" class="custom-strong">Telefon</label>
+            @Html.TextBoxFor(i => i.PhoneNumber, new { @class = "form-control", id = "phone" })
+            @Html.ValidationMessageFor(i => i.PhoneNumber)
+        </div>
+        <div class="form-group">
+            <label for="mail" class="custom-strong">E-Posta</label>
+            @Html.TextBoxFor(i => i.Email, new { @class = "form-control", id = "mail" })
+            @Html.ValidationMessageFor(i => i.Email)
+        </div>
+        <div class="form-group">
+            <label for="address" class="custom-strong">Lokasyon</label>
+            @Html.TextAreaFor(i => i.Address, new { @class = "form-control", id = "address" })
+            @Html.ValidationMessageFor(i => i.Address)
+        </div>
+        @Html.ActionLink("Vazgeç", "Index", null, new { @class = "btn btn-danger float-right" })
+        <input type="submit" class="btn btn-custom-blue float-right " style="margin-right:1%" value="Kaydet" />
+
+}
+    </div>
+    <div class="card-footer small text-muted">@DateTime.Now.Year</div>
+</div>

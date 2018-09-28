@@ -1,0 +1,68 @@
+﻿@model Portal_v1._0._1.Identity.PortalUser
+@{
+    ViewBag.Title = "Kullanıcı Görüntüle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Admin</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Kullanıcılar</a>
+    </li>
+    <li class="breadcrumb-item active">Kullanıcı Görüntüle</li>
+</ol>
+<!-- Example DataTables Card-->
+<div class="card border-primary mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">Kullanıcı Bilgileri</strong>
+    </div>
+
+    <div class="card-body">
+        @{ if (Model.Resim == null)
+            {
+                Model.Resim = "default_avatar_male.jpg";
+            }
+
+        }
+        <img class="card-img-top" src="~/uploads/@Model.Resim" alt="pp" style="width:20%; ">
+        <hr />
+        <ul class="list-group">
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Kullanıcı Adı : </strong></span> @Model.UserName</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Ad : </strong> </span> @Model.Name</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Soyad : </strong></span>@Model.LastName</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Telefon : </strong></span>@Model.PhoneNumber</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Unvan : </strong></span>@Model.Title</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">E-Posta : </strong></span>@Model.Email</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Lokasyon : </strong></span>@Model.Address</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">İşe Giriş Tarihi : </strong></span>@String.Format("{0:dd/MM/yyy}", Model.IseGiris)</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Çıkış : </strong></span>@(Model.CiktiMi ? "Çıkış Yaptı" : "Çıkış Yapmadı")</li>
+            <li class="list-group-item"> <span class="text-center"><strong class="custom-strong">Çıkış Tarihi : </strong></span>@String.Format("{0:dd/MM/yyy}", Model.IsCikis)</li>
+        </ul>
+    </div>
+    <div class="card-footer small text-muted">
+        <button type="button" class="btn btn-outline-danger float-md-right" data-toggle="modal" style="margin-left:1em;padding-left:2em;padding-right:2em;" data-target="#userDelete">  Sil  </button>
+        @Html.ActionLink("Bilgileri Düzenle", "UserUpdate", new { id = Model.Id }, new { @class = "btn btn-outline-custom-blue float-right" })
+    </div>
+</div>
+<!-- Kullanıcı Sil Modal -->
+<div class="modal fade" id="userDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger"> <span class="text-dark">@Model.UserName</span> kişisini silmek istediğinizden emin misiniz ?</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-dismiss="modal">Vazgeç</button>
+                <form action="/Account/Delete/@Model.Id" method="post">@Html.AntiForgeryToken()<button class="btn btn-outline-danger float-right">Sil</button></form>
+            </div>
+        </div>
+    </div>
+</div>

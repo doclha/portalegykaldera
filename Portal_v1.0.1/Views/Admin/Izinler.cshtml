@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Portal_v1._0._1.Models.IzinGelen>
+@{
+    ViewBag.Title = "İzinler";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">İzinler</li>
+</ol>
+<!-- Example DataTables Card-->
+@if (ViewData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @ViewData["Success"]
+    </div>
+}
+<div class="card border-primary mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i>  <strong class="custom-strong">İzin Talepleri</strong>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="custom-strong">Adı Soyadı</th>
+                        <th class="custom-strong">İzin Açıklaması</th>
+                        <th class="custom-strong">Başlangıç Tarihi</th>
+                        <th class="custom-strong">Bitiş Tarihi</th>
+                        <th class="custom-strong">Onay</th>
+                        <th class="custom-strong">Detay</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="custom-strong">Adı Soyadı</th>
+                        <th class="custom-strong">İzin Açıklaması</th>
+                        <th class="custom-strong">Başlangıç Tarihi</th>
+                        <th class="custom-strong">Bitiş Tarihi</th>
+                        <th class="custom-strong">Onay</th>
+                        <th class="custom-strong">Detay</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center bg-danger">İzin talebi yok</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name @item.LastName</td>
+                                <td>@item.IzinAciklama</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}",item.BaslangicTarihi)</td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.BitisTarihi)</td>
+                                @if (item.Onaylandi == true)
+                                {
+                                    <td><span class="badge badge-success" style="padding:5px;">Onaylandı</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge badge-danger" style="padding:5px;">Onaylanmadı</span></td>
+                                }
+                                <td><a href="/Admin/IzinDetay/@item.Id" class="btn btn-outline-custom-blue" style="padding:0 6px 0 6px;">Detay</a></td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted"></div>
+</div>
+

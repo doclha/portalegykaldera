@@ -1,0 +1,61 @@
+﻿@model Portal_v1._0._1.Models.RaporModel
+@{
+    ViewBag.Title = "Rapor Gir";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Home/Index">Ana Sayfa</a>
+    </li>
+    <li class="breadcrumb-item active">Rapor Gir</li>
+</ol>
+<div class="content">
+    <div class="col">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="fa fa-table"></i> <strong class="custom-strong">Yeni Rapor Girişi</strong>
+            </div>
+            <div class="card-body">
+                <form action="/Home/RaporGir" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="file" class="custom-strong">Dosya</label>
+                            <input class="form-control" type="file" name="file" id="file" />
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <strong class="custom-strong">Rapor Açıklama</strong>
+                            @Html.TextAreaFor(i => i.RaporAciklama, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(i => i.RaporAciklama)
+                        </div>
+
+                    </div>
+                    <div class=row>
+                        <div class="col-md-12">
+                            <strong class="custom-strong">Başlangıç Tarihi</strong>
+                            @Html.TextBoxFor(i => i.BaslangicTarihi,
+                                                        new { @type = "date", @class = "form-control" })
+                            @Html.ValidationMessageFor(i => i.BaslangicTarihi)
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+
+                        <div class="col-md-12">
+                            <strong class="custom-strong">Bitiş Tarihi</strong>
+                            @Html.TextBoxFor(i => i.BitisTarihi,
+                                                                       new { @type = "date", @class = "form-control" })
+                            @Html.ValidationMessageFor(i => i.BitisTarihi)
+                            <button style="margin-top:20px;" type="submit" class="float-right btn btn-custom-blue">Rapor Ekle</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer small text-muted float-right">@DateTime.Now.Year</div>
+        </div>
+    </div>
+</div>

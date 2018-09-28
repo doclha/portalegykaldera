@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Portal_v1._0._1.Models.CVModel>
+@{
+    ViewBag.Title = "CVEkle";
+}
+<!-- Breadcrumbs-->
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="Home/Index">Ana Sayfa</a>
+    </li>
+    <li class="breadcrumb-item active">CV  Ekle</li>
+</ol>
+<div class="content">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["message"]
+        </div>
+    }
+    <div class="col">
+        <div class="card border-primary mb-3">
+            <div class="card-header">
+                <i class="fa fa-file-excel-o"></i> <strong class="custom-strong">CV Ekle</strong>
+            </div>
+            <div class="card-body">
+                <form action="/Home/CVEkle" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file" class="custom-strong">Dosya</label>
+                        <input class="form-control" type="file" name="file" id="file" />
+                    </div>
+
+                    <input type="hidden" name="username" value="@User.Identity.Name" />
+
+                    <input type="submit" class="btn btn-custom-blue float-right" value="Gönder" />
+                </form>
+            </div>
+            <div class="card-footer small text-muted float-right">@DateTime.Now.Year</div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Dosya Adı</th>
+                        <th scope="col">İndir</th>
+                        <th scope="col">Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <tr><td colspan="4" class="bg-danger text-center">Kayıtlı CV Yok !</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">#</th>
+                                <td>@item.FileName</td>
+                                <td><a href="~/uploads/UploadCV/@item.FileName">İndir</a></td>
+                                <td><form action="/Home/DeleteCV/@item.Id" method="post"> @Html.AntiForgeryToken() <button class="btn btn-danger">Sil</button></form> </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

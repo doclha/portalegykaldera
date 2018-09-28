@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Portal_v1._0._1.Models.MasrafUrun>
+@{
+    ViewBag.Title = "MasrafGoruntule";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<ol class="breadcrumb d-print-none">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Admin</a>
+    </li>
+    <li class="breadcrumb-item "><a href="/Admin/Masraflar">Masraflar</a></li>
+    <li class="breadcrumb-item active">Masraf Detay</li>
+</ol>
+<div class="d-none d-print-block mb-5">
+    <img src="~/images/logo.png" alt="logo" class="rounded mx-auto d-print-block" />
+    <div class="text-center mt-3"><h2>EGY Personel Masraf Listesi</h2></div>
+    <div class="text-center text-uppercase"><h5>EGY Bilişim Teknolojileri Yazılım Sanayi Ticaret Anonim Şirketi</h5></div>
+</div>
+<div class="clearfix"></div>
+<div class="card border-primary mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> <strong class="custom-strong">Masraf Detay</strong>
+    </div>
+    <div class="card-body">
+        <a href="#" class="d-print-none" onClick="return yazdir()">Masrafı yazdır</a>
+        <div class="d-none d-print-block mb-3">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="text-center"> <strong class="custom-strong">Personel : </strong></span>
+                    @ViewBag.user.Name @ViewBag.user.LastName
+                </li>
+                <li class="list-group-item">
+                    <span class="text-center"> <strong class="custom-strong">Görevi : </strong></span>
+                    @ViewBag.user.Title
+                </li>
+            </ul>
+        </div>
+
+        <div class="table-responsive" id="yazdirilacakolandiv">
+            <table class="table display" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="custom-strong">Alındığı yer</th>
+                        <th class="custom-strong">Açıklama</th>
+                        <th class="custom-strong">Tarih</th>
+                        <th class="custom-strong">Tutar</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Tedarikci</td>
+                            <td>@item.Aciklama</td>
+                            <td>@String.Format("{0:dd/MM/yyyy}", item.Tarih) </td>
+                            <td>@item.Tutar ₺</td>
+
+                        </tr>
+
+                    }
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th scope="col"> </th>
+                        <th scope="col"> </th>
+                        <th scope="col"> </th>
+                        <th scope="col"> <a class="custom-strong ">Toplam = @ViewBag.sepet.ToplamTutar ₺</a> </th>
+                    </tr>
+
+                    <tr>
+                        <th scope="col">
+                            @if (!ViewBag.sepet.Onaylandi)
+                            {
+                                <form action="/Admin/MasrafOnayla/@Url.RequestContext.RouteData.Values["id"]" method="post">@Html.AntiForgeryToken()<button class="btn btn-outline-custom-blue d-print-none">Sepeti Onayla</button></form>
+                            }
+
+                        </th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"><form action="/Admin/MasrafSil/@Url.RequestContext.RouteData.Values["id"]" method="post">@Html.AntiForgeryToken()<button class="btn btn-outline-danger d-print-none">Sepeti Sil</button></form></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="d-none d-print-inline">
+                <div class="col-3">
+                    <span class="custom-strong">Personel İmza :</span>
+                </div>
+                <div class="col-5"><span class="custom-strong">Birim Müdürü İmza :</span></div>
+                <div class="col-4"><span class="custom-strong">Genel Müdür :</span> </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-footer">
+
+
+    </div>
+
+</div>
+@section scripts{
+    <script language="javascript">
+        var da = (document.all) ? 1 : 0;
+        var pr = (window.print) ? 1 : 0;
+        var mac = (navigator.userAgent.indexOf("Mac") != -1);
+
+        function yazdir() {
+            if (pr) // NS4, IE5
+                window.print()
+            else if (da && !mac) // IE4 (Windows)
+                vbPrintPage()
+            else // other browsers
+                alert("Tarayıcınız bu özelliği desteklememektedir.");
+            return false;
+        }
+    </script>
+
+
+}
+
+

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Portal_v1._0._1.Models.MasrafUrun>
+
+@{
+    ViewBag.Title = "Masraf Görüntüle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Home/Index">Ana Sayfa</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/Home/SepetGoruntule">Masraf Görüntüle</a>
+    </li>
+    <li class="breadcrumb-item active">
+        Masraf Detay
+    </li>
+</ol>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Tedarikçi</th>
+                <th scope="col">Açıklama</th>
+                <th scope="col">Tarih</th>
+                <th scope="col">Tutar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td class="custom-strong">@item.Tedarikci</td>
+                    <td class="custom-strong">@item.Aciklama</td>
+                    <td class="custom-strong">@String.Format("{0:dd/MM/yyyy}", item.Tarih)</td>
+                    <td class="custom-strong">@item.Tutar ₺</td>
+                </tr>
+
+            }
+        </tbody>
+
+
+
+
+
+    </table>
+</div>

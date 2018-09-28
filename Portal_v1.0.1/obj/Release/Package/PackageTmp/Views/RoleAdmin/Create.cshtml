@@ -1,0 +1,52 @@
+﻿@model string
+@{
+                /**/
+
+                ViewBag.Title = "Create";
+                Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Index">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Rol Ekle</li>
+</ol>
+
+
+@Html.ValidationSummary()
+@using (Html.BeginForm())
+{
+    <div class="content">
+        <div class="col">
+            <div class="card border-primary mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i> <strong class="custom-strong">Yeni Rol Ekle</strong>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <strong class="custom-strong">Rol Adı</strong>
+                               
+                                <input name="name" value="@Model" class="form-control" />
+                                <button type="submit" class="btn btn-custom-blue float-right" style="margin-top:10px;">Ekle</button>
+
+
+
+                            </div>
+                         
+                        </div>
+                      
+                    }
+                </div>
+                <div class="card-footer small text-muted float-right">@DateTime.Now.Year</div>
+            </div>
+        </div>
+    </div>
+
+
+}

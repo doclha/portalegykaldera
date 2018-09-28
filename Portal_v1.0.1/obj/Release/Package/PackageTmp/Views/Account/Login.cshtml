@@ -1,0 +1,65 @@
+﻿@model Portal_v1._0._1.Models.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Portal - Login</title>
+    <!-- Bootstrap core CSS-->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin.css" rel="stylesheet">
+</head>
+<body class="login-body">
+    <div>
+        
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+            <div class="login-page">
+                <div class="form">
+                    <form class="login-form">
+                        @*<h2>SIGN IN</h2>*@
+
+                        <a href="http://egybilisim.com/">
+                            <img style="border:none; margin-bottom:10%; width:100%" src="~/images/logo.png" />
+                        </a>
+                        <a href="http://kalderasoft.com/" class="kaldera-login-link">
+                        </a>
+
+
+                       
+                        @Html.ValidationSummary()
+                        @Html.TextBoxFor(i => i.UserName, new { @id = "username", @class = "form-control", @type = "username", @placeholder = "Kullanıcı Adı" })
+                        @Html.ValidationMessageFor(i => i.UserName)
+
+
+                        @Html.TextBoxFor(i => i.Password, new { @id = "password", @class = "form-control", @type = "password", @placeholder = "Şifre" })
+                        @Html.ValidationMessageFor(i => i.Password)
+
+
+                        <button>Oturum Aç</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+        }
+    </div>
+
+
+
+</body>
+</html>
